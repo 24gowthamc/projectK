@@ -1,0 +1,50 @@
+int[] solution(int[] numbers) {
+    List<Integer> first = new ArrayList<>();
+    List<Integer> second = new ArrayList<>();
+
+    // Step 1 & 2
+    first.add(numbers[0]);
+    second.add(numbers[1]);
+
+    // Step 3
+    for (int i = 2; i < numbers.length; i++) {
+        int num = numbers[i];
+
+        int countFirst = 0;
+        int countSecond = 0;
+
+        // Count strictly greater elements
+        for (int x : first) {
+            if (x > num) countFirst++;
+        }
+        for (int x : second) {
+            if (x > num) countSecond++;
+        }
+
+        // Decide where to place num
+        if (countFirst > countSecond) {
+            first.add(num);
+        } else if (countSecond > countFirst) {
+            second.add(num);
+        } else {
+            // Tie in counts
+            if (first.size() < second.size()) {
+                first.add(num);
+            } else if (second.size() < first.size()) {
+                second.add(num);
+            } else {
+                // Final tie
+                first.add(num);
+            }
+        }
+    }
+
+    // Step 4: Combine arrays
+    int[] result = new int[first.size() + second.size()];
+    int index = 0;
+
+    for (int x : first) result[index++] = x;
+    for (int x : second) result[index++] = x;
+
+    return result;
+}
