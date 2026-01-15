@@ -1,0 +1,41 @@
+String[] solution(String[][] paragraphs, String[] aligns, int width) {
+    List<String> result = new ArrayList<>();
+
+    // Top border
+    String border = "*".repeat(width + 2);
+    result.add(border);
+
+    for (int p = 0; p < paragraphs.length; p++) {
+        String[] words = paragraphs[p];
+        String align = aligns[p];
+
+        int i = 0;
+        while (i < words.length) {
+            StringBuilder line = new StringBuilder(words[i]);
+            i++;
+
+            // Add as many words as possible
+            while (i < words.length &&
+                   line.length() + 1 + words[i].length() <= width) {
+                line.append(" ").append(words[i]);
+                i++;
+            }
+
+            int spacesNeeded = width - line.length();
+            String formatted;
+
+            if (align.equals("LEFT")) {
+                formatted = line + " ".repeat(spacesNeeded);
+            } else { // RIGHT
+                formatted = " ".repeat(spacesNeeded) + line;
+            }
+
+            result.add("*" + formatted + "*");
+        }
+    }
+
+    // Bottom border
+    result.add(border);
+
+    return result.toArray(new String[0]);
+}
